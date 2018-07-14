@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todolist</title>
+    <script src="./Vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <!--点击提交按钮之后会将输入框的内容写入到列表中并且显示出来-->
+    <!--@是事件的标志，可以用来定义各种事件-->
+    <input v-model="inputValue"/>
+    <button @click="submit">提交</button>
+    <ul>
+        <li v-for="(item,index) of list" :key="index">{{item}}</li>
+    </ul>
+    <hr>
+    <p>组件的使用</p>
+    <ul>
+        <!--不能使用大写字母模块名-->
+        <p>全局组件</p>
+        <!--存在一种就近原则，绑定最近的Vue的表达式-->
+        <!--在组件之中绑定一个不存在的数据并不会报错-->
+        <!--发布订阅，子父组件的通信-->
+        <todolist
+                v-for="(item,index) of list" :key="index"
+                :con="item"
+                :index="index"
+                @show="show"
+        >
+        </todolist>
+        <!--<hr>-->
+        <!--<p>局部组件</p>-->
+        <!--<todo v-for="(item,index) of list" :key="index"></todo>-->
+    </ul>
+</div>
+<script>
+    // 组件就是一个小的vue实例，它的里面同样可以使用data、methods属性
+    // 声明一个名为todolist的全局组件
+    // 父组件可以使用props把数据传递给子组件，子组件可以使用$emit触发父组件之中定义的事件
+    Vue.component('todolist', {
+        // 组件接受一个名字为con的值
+        props: ['con','index'],
+        template: '<li @click="submit">{{con}}</li>',//component的子组件
+        methods:{
+            submit:function () {
+                this.$emit('show',this.index)
+            }
+        }
+    });
+    // 声明一个名为todolist的局部组件
+    var todoItem = {
+        template: '<li>item</li>',
+    }
+    new Vue({
+        el: "#root",
+        // 在实例内部声明一个局部组件,名字为todo,对应的实例为todoItem
+        components: {
+            'todo': todoItem
+        },
+        data: {
+            inputValue: '',
+            list: [],
+            count: -1,
+        },
+        //侦听
+        watch: {},
+        //方法
+        methods: {
+            submit: function () {
+                this.list.push(this.inputValue);
+                this.inputValue = '';
+            },
+            show:function (index) {
+                // 从index下标处开始删除1项
+                this.list.splice(index,1);
+            }
+        },
+        computed: {},
+    });
+</script>
+</body>
+</html>

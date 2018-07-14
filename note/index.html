@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue.js</title>
+    <script src="./Vue.js"></script>
+</head>
+<body>
+
+<div id="root"><!--Vue实例的挂载点,vue只会去处理挂载点下的东西-->
+    <!--模板内容,当在vue实例上生命了template内容那么在挂载点上书-->
+    <!--写的h5代码将会被覆盖不显示效果;-->
+</div>
+<hr/>
+<div id="app">
+    <!--插值表达式-->
+    <p>{{data}}</p>
+    <!--v-text,v-html指定在该处要显示什么数据，v-text会将指定数据原样输出-->
+    <!--v-html里面如果有html元素会将元素翻译-->
+    <p v-text="order"></p>
+    <p v-html="order"></p>
+    <!--给该元素内部绑定一个动作（click事件），不会翻译html元素-->
+    <!--点击事件函数需要在vue实例中的methods字段声明，v-on可以简写呈一个@符号，建议使用-->
+    <!--title属性是html的一个属性，在鼠标停留在此元素上的时候会跳出title的内容-->
+    <!--v-bind:属性可以指明绑定h5的属性，如果有v-bind字段那么在得到属性值的时候-->
+    <!--会去对应的Vue实例中data里面查找该值，如果该值不存在那么js会报错，属性后
+    面的值就是变成了一个js的表达式,V-bind的简写是一个冒号 -->
+    <p :title="'hello '+data" @click="handleClick">{{data}}</p>
+    <!--双向绑定v-model，可以实现将vue中属性绑定到元素中，元素中对值进行修改也会对
+    属性值进行修改，但是这个是暂时的，在刷新浏览器之后就会恢复原样-->
+    <input v-model="data">
+    <p>{{data}}</p>
+    <hr>
+    <p>给Vue实例添加计算属性，代表该字段是需要计算出来的</p>
+    <div>
+        姓：<input :value="firstName">
+        名：<input :value="lastName"><br>
+        <input type="submit" @click="handle" value="修改">
+        <!--只有当它所依赖地属性发生变化的时候计算属性的值才回发生改变-->
+        <p>{{fullName}}</p>
+    </div>
+    <hr>
+    <p>侦听器</p>
+    <div>
+        <!--在Vue实例中天健watch字段设置侦听属性-->
+        <p>修改次数: {{count}}</p>
+    </div>
+    <hr>
+    <p>v-if，v-show，v-for</p>
+    <div>
+        <!--修改之后会将此内容从dom树上清除-->
+        <p v-if="show">vue.js</p>
+        <button @click="change">{{result}}</button>
+        <!--不会从dom树上清除，只是增加了一个css属性display:none-->
+        <!--在需要频繁的显示隐藏的时候使用v-show的性能会比v-if的高，因为它不需要销毁dom在重建dom-->
+        <p v-show="show">vue.js</p>
+        <button @click="change">{{result}}</button>
+        <!--循环读取list内的值并把该值存放在item这个临时变量之中，然后循环输出，指导遍历完list-->
+        <ul>
+            <li v-for="item of list" >{{item}}</li>
+            <!--提高性能的一种写法，为每一次v-for添加一个不一样的key值（这个key值必须是不一样的）-->
+            <!--遍历读取list的值存入到item中，并将下标存入到index中-->
+            <li v-for="(item,index) of list" :key="index">{{item}}</li>
+        </ul>
+    </div>
+</div>
+<script>
+    // 对于前端页面只需要把布局写好就行,数据处理放置使用js即可
+    // 指定vue实例的挂载点，声明模板内容，设置数据内容
+    var root = new Vue({
+        el: '#root',
+        template: '<p>hello{{message}},{{data}}</p>',
+        data: {
+            message: '^_^',
+            data: 'the weather is great!'
+        }
+    });
+    var app = new Vue({
+        el: '#app',
+        data: {
+            order: '<h1>learning vue.js</h1>',
+            data: 'kitetop',
+            firstName: 'hello',
+            lastName: 'mumu',
+            count: 0,
+            show: true,
+            result: "隐藏",
+            list:[1,2,3],//数组
+        },
+        //计算属性
+        computed: {
+            fullName: function () {
+                return this.firstName + this.lastName
+            }
+        },
+        //侦听属性
+        watch: {
+            firstName: function () {
+                this.count++
+            },
+            lastName: function () {
+                this.count++
+            },
+        },
+        //方法
+        methods: {
+            handleClick: function () {
+                // 在函数内部可以使用如下方法修改该Vue的成员属性
+                if (this.data == 'kitetop') {
+                    this.data = 'mumu'
+                } else {
+                    this.data = 'kitetop'
+                }
+            },
+            handle: function () {
+                // 修改之后提交结果会将记录数进行修改也一起修改
+                this.firstName = this.firstName;
+                this.count++;
+            },
+            change: function () {
+                // 控制显示与隐藏
+                if (this.show == true) {
+                    this.show = false
+                    this.result = "显示"
+                } else {
+                    this.show = true
+                    this.result = "隐藏"
+
+                }
+            },
+        }
+    })
+</script>
+</body>
+</html>
