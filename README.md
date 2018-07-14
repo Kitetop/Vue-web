@@ -28,3 +28,30 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+#firstday
+
+> basic learning (demo is in note directory)
+
+##simple demo
+
+```bash
+#index.html
+1.事件绑定=>@
+
+2.属性绑定=>:
+
+3.插值表达式=>{{data}}
+
+4.双向绑定=>v-model
+
+5.v-if=>DOM的存在与否
+  v-show=>DOM的显示与否
+  v-for=>循环显示
+  
+6.Vue实例元素含义
+
+7.侦听=>watch
+
+8.计算=>computed
+```
