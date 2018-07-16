@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布投票</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="root">
+    <form class="form-horizontal" role="form">
+        <div class="form-group ">
+            <label for="voteText" class="col-sm-2 col-md-offset-3 control-label">投票内容</label>
+            <div class="col-sm-4">
+                <textarea class="form-control" rows="3" id="voteText" v-model="voteText"></textarea>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label for="voteChoseA" class="col-sm-2 col-md-offset-3 control-label">A:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="voteChoseA" v-model="voteChoseA" placeholder="选项A">
+            </div>
+        </div>
+        <div class="form-group ">
+            <label for="voteChoseB" class="col-sm-2 col-md-offset-3 control-label">B:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="voteChoseB" v-model="voteChoseB" placeholder="选项A">
+            </div>
+        </div>
+        <div class="form-group ">
+            <label for="voteChoseC" class="col-sm-2 col-md-offset-3 control-label">C:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="voteChoseC" v-model="voteChoseC" placeholder="选项A">
+            </div>
+        </div>
+        <div class="form-group ">
+            <label for="voteChoseD" class="col-sm-2 col-md-offset-3 control-label">D:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="voteChoseD" v-model="voteChoseD" placeholder="选项A">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-1">
+                <button type="button" class="btn btn-primary " @click="createVote">发布</button>
+            </div>
+            <div class="col-sm-1">
+                <button type="reset" class="btn btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<script>
+    new Vue({
+        el: '#root',
+        data: {
+            id: '',
+            voteText: '',
+            voteChoseA: '',
+            voteChoseB: '',
+            voteChoseC: '',
+            voteChoseD: '',
+        },
+        created() {
+            this.id = this.getParameterByName('id');
+        },
+        methods: {
+            getParameterByName(_name) {
+                let name = _name;
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                let results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            },
+            createVote() {
+                axios({
+                    url: "http://10.0.20.190:8090/v1/vote",
+                    method: "POST",
+                    params: {
+                        userId:this.id,
+                        voteText: this.voteText,
+                        voteChoseA: this.voteChoseA,
+                        voteChoseB:this.voteChoseB,
+                        voteChoseC:this.voteChoseC,
+                        voteChoseD:this.voteChoseD,
+                    }
+                }).then(rsp => {
+                    console.log(rsp);
+                }).catch(err => {
+                    console.log(err);
+                });
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>显示投票结果</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div class="container" id="root">
+    <div class="row">
+        <table class="table table-striped table-bordered">
+            <caption>{{vote}}</caption>
+            <thead>
+            <tr>
+                <th v-for="item of keys">{{item}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item of results">{{item}}</tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    var root = new Vue({
+        el: '#root',
+        data() {
+            return {
+                vote: '',
+                key: [],
+                results: [],
+                keys: [],
+            }
+        },
+        mounted() {
+            this.showResult();
+        },
+        methods: {
+            // getParameterByName(_name) {
+            //     let name = _name;
+            //     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            //     let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            //     let results = regex.exec(location.search);
+            //     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            // },
+            showResult() {
+                axios({
+                    url: "http://10.0.20.190:8090/v1/result?voteId=5b48a43c9dc6d608d61d7982",
+                    method: "GET",
+                    params: {}
+                }).then(rsp => {
+                    var result = rsp.data;
+                    this.vote = rsp.data.vote;
+                    // for (var i = 1; Object.keys(result)[i] != 'uri'; i++) {
+                    //     this.results[i-1] = result[Object.keys(result)[i]];
+                    //     this.keys[i-1] = Object.keys(result)[i];
+                    //     if (Object.keys(result)[i] == 'uri') {
+                    //         break;
+                    //     }
+                    // }
+                    for (var key in result) {
+                        if (key == 'vote' || key == 'uri') {
+                            continue;
+                        }
+                        this.keys.push(key);
+                        this.results.push(result[key]);
+                        result[key]
+                    }
+                    console.log('res===', this.results);
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            showDate() {
+                console.log(this.keys);
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

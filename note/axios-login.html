@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="root">
+    <form class="form-horizontal" role="form">
+        <div class="form-group ">
+            <label for="username" class="col-sm-2 col-md-offset-3 control-label">用户名</label>
+            <div class="col-sm-4">
+                <input type="text"  class="form-control" id="username" v-model="username"  placeholder="用户名">
+            </div>
+        </div>
+        <div class="form-group ">
+            <label for="Password" class="col-sm-2 col-md-offset-3 control-label">密码</label>
+            <div class="col-sm-4">
+                <input type="password" class="form-control" id="Password" v-model="password" placeholder="密码">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-1">
+                <button type="button" class="btn btn-primary " @click="login">登录</button>
+            </div>
+            <div class="col-sm-1">
+                <button type="reset" class="btn btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+new Vue({
+    el:'#root',
+    data: {
+        username:'',
+        password:'',
+        id: ''
+    },
+    // watch :{
+    //     username: function (oldVal, newVal) {
+    //         console.log(oldVal);
+    //     }
+    // },
+    // 页面创建的时候调用
+    // created () {
+    //
+    // },
+    // 开始挂载的时候调用
+     methods: {
+         //     console () {
+         //         console.log(this.username);
+         //     },
+         // 获得url的参数
+         // getParameterByName (_name) {
+         //     let name = _name;
+         //     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+         //     let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+         //     let results = regex.exec(location.search);
+         //     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+         // },
+         login () {
+             axios({
+                 url: "http://10.0.20.190:8090/v1/login",
+                 method: "POST",
+                 params: {
+                     username: this.username,
+                     password: this.password
+                 }
+             }).then(rsp => {
+                 window.open('./createVote.html?id='+rsp.data.id);
+             }).catch(err => {
+                 console.log(err);
+             });
+         }
+     }
+})
+
+</script>
+</body>
+</html>
