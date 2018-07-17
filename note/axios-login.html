@@ -56,9 +56,6 @@ new Vue({
     // },
     // 开始挂载的时候调用
      methods: {
-         //     console () {
-         //         console.log(this.username);
-         //     },
          // 获得url的参数
          // getParameterByName (_name) {
          //     let name = _name;
@@ -69,14 +66,14 @@ new Vue({
          // },
          login () {
              axios({
-                 url: "http://10.0.20.190:8090/v1/login",
+                 url: "http://10.0.20.190:8090/vote/v1/login",
                  method: "POST",
                  params: {
                      username: this.username,
                      password: this.password
                  }
              }).then(rsp => {
-                 window.open('./createVote.html?id='+rsp.data.id);
+                 window.open('./user-center.html?userId='+rsp.data.id+'&username='+this.username);
              }).catch(err => {
                  console.log(err);
              });

@@ -68,7 +68,7 @@
             voteChoseD: '',
         },
         created() {
-            this.id = this.getParameterByName('id');
+            this.id = this.getParameterByName('userId');
         },
         methods: {
             getParameterByName(_name) {
@@ -80,7 +80,7 @@
             },
             createVote() {
                 axios({
-                    url: "http://10.0.20.190:8090/v1/vote",
+                    url: "http://10.0.20.190:8090/vote/v1/vote",
                     method: "POST",
                     params: {
                         userId:this.id,
@@ -91,9 +91,9 @@
                         voteChoseD:this.voteChoseD,
                     }
                 }).then(rsp => {
-                    console.log(rsp);
+                    alert("发布成功");
                 }).catch(err => {
-                    console.log(err);
+                    alert("发布失败");
                 });
             }
         }

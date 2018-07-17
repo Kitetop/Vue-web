@@ -16,12 +16,14 @@
         <table class="table table-striped table-bordered">
             <caption>{{vote}}</caption>
             <thead>
-            <tr>
-                <th v-for="item of keys">{{item}}</th>
-            </tr>
+                <tr>
+                    <th v-for="item of keys">{{item}}</th>
+                </tr>
             </thead>
             <tbody>
-            <tr v-for="item of results">{{item}}</tr>
+                <tr>
+                    <td v-for="item of results">{{item}}</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -32,53 +34,43 @@
         data() {
             return {
                 vote: '',
+                voteId:'',
                 key: [],
                 results: [],
                 keys: [],
             }
         },
         mounted() {
+            this.voteId=this.getParameterByName('voteId');
             this.showResult();
         },
         methods: {
-            // getParameterByName(_name) {
-            //     let name = _name;
-            //     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            //     let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            //     let results = regex.exec(location.search);
-            //     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-            // },
+            getParameterByName(_name) {
+                let name = _name;
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                let results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            },
             showResult() {
                 axios({
-                    url: "http://10.0.20.190:8090/v1/result?voteId=5b48a43c9dc6d608d61d7982",
+                    url: "http://10.0.20.190:8090/vote/v1/result?voteId="+this.voteId,
                     method: "GET",
                     params: {}
                 }).then(rsp => {
                     var result = rsp.data;
                     this.vote = rsp.data.vote;
-                    // for (var i = 1; Object.keys(result)[i] != 'uri'; i++) {
-                    //     this.results[i-1] = result[Object.keys(result)[i]];
-                    //     this.keys[i-1] = Object.keys(result)[i];
-                    //     if (Object.keys(result)[i] == 'uri') {
-                    //         break;
-                    //     }
-                    // }
                     for (var key in result) {
                         if (key == 'vote' || key == 'uri') {
                             continue;
                         }
                         this.keys.push(key);
                         this.results.push(result[key]);
-                        result[key]
                     }
-                    console.log('res===', this.results);
                 }).catch(err => {
                     console.log(err);
                 });
             },
-            showDate() {
-                console.log(this.keys);
-            }
         }
     })
 
