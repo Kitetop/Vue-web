@@ -33,7 +33,7 @@ npm test
 ## simple demo
 
 ```bash
-index.html
+./note/index.html
 1.事件绑定=>@
 
 2.属性绑定=>:
@@ -51,4 +51,19 @@ index.html
 7.侦听=>watch
 
 8.计算=>computed
+
+todolist.html
+1. 组件就是一个小的vue实例，它的里面同样可以使用data、methods属性
+   父组件可以使用props把数据传递给子组件，子组件可以使用$emit触发父组件之中定义的事件
 ```
+# vote 
+ > the view for voting
+ 
+ ```
+ ./note/axios-login.html => 用户登录
+ ./note/user-center.html =>用户中心
+ ./note/showResult.html =>显示投票详情
+ ./note/createVote.html =>发布投票
+ ./note/addResult.html =>显示发布的投票
+ ./note/changeResult.html =>进行投票
+ ```
