@@ -26,14 +26,14 @@ npm run e2e
 # run all tests
 npm test
 ```
-#firstday
+# firstday
 
 > basic learning (demo is in note directory)
 
-##simple demo
+## simple demo
 
 ```bash
-#index.html
+index.html
 1.事件绑定=>@
 
 2.属性绑定=>:
