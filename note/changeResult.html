@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>voting</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div class="container" id="root">
+    <div class="row">
+        <table class="table table-striped table-bordered">
+            <caption>请投下你宝贵的一票</caption>
+            <form role="form">
+                <tbody>
+                <tr>
+                    <td>
+                        <textarea class="form-control" :placeholder="vote" disabled> </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="radio">
+                            <label class="col-sm-1" v-for="(item,index) of keys">
+                                <input type="radio" name="chose" :id="item" value="item" @click="chose(index,item)"> {{item}}
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-primary" @click="submitResult()">提交</button>
+                        <button type="button" class="btn btn-sm btn-primary col-sm-offset-1">重置</button>
+                    </td>
+                </tr>
+                </tbody>
+            </form>
+        </table>
+    </div>
+</div>
+<script>
+    var root = new Vue({
+        el: '#root',
+        data() {
+            return {
+                item:[],
+                vote: '',
+                voteId:'',
+                userId:'',
+                keys: [],
+            }
+        },
+        mounted() {
+            this.userId=this.getParameterByName('userId');
+            this.voteId=this.getParameterByName('voteId');
+            this.check();
+            this.showResult();
+        },
+        methods: {
+            getParameterByName(_name) {
+                let name = _name;
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                let results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            },
+            showResult() {
+                axios({
+                    url: "http://10.0.20.190:8090/vote/v1/result?voteId="+this.voteId,
+                    method: "GET",
+                    params: {}
+                }).then(rsp => {
+                    var result = rsp.data;
+                    this.vote = rsp.data.vote;
+                    for (var key in result) {
+                        if (key == 'vote' || key == 'uri') {
+                            continue;
+                        }
+                        this.keys.push(key);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            chose(index,item){
+                this.item.pop();
+                this.item[index]=item;
+            },
+            submitResult(){
+                axios({
+                    url: "http://10.0.20.190:8090/vote/v1/result",
+                    method: "POST",
+                    params: {
+                        voteId:this.voteId,
+                        voteChoseA:this.item[0],
+                        voteChoseB:this.item[1],
+                        voteChoseC:this.item[2],
+                        voteChoseD:this.item[3],
+                    }
+                }).then(rsp => {
+                    alert('投票成功！');
+                    window.location='./addResult.html?userId='+this.userId;
+                }).catch(err => {
+                    alert('投票失败！');
+                });
+            },
+            check() {
+                if (!this.userId|| !this.voteId) {
+                    alert("请先登录！");
+                    window.location = './axios-login.html';
+                }
+            },
+        }
+    })
+
+</script>
+</body>
+</html>
