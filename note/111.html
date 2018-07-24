@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TEST</title>
+</head>
+<body>
+<form action="" class="form">
+    <div class="item">
+        题目：<input type="text" class="title">
+        选项：<input type="text" class="radio"><input type="text" class="radio">
+    </div>
+    <div class="item">
+        题目：<input type="text" class="title">
+        选项：<input type="text" class="radio"><input type="text" class="radio">
+    </div>
+    <div class="item">
+        题目：<input type="text" class="title">
+        选项：<input type="text" class="radio"><input type="text" class="radio">
+    </div>
+    <button class="submit">提交</button>
+</form>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+    var data = [];  // 要传输的数组
+
+    var item = $('.item');  // 通过jquery获取题目元素
+
+    function submit(){
+        item.each(function(idx){   // 每一道题目进行遍历，idx为序号
+            let vote = {           // 生命题目数据存储的变量
+                title: "",
+                type: "",
+                choose: {}
+            };
+            vote.title = item.eq(idx).find('.title').val();   // 题目
+            let _this = item.eq(idx).find('.radio');
+            _this.each(function(index){                  // 选项遍历
+                vote.choose[index] = _this.eq(index).val();
+            });
+            data.push(vote);            // 每一个题目数据对象存到data中
+        });
+    }
+
+
+    $('.submit').on('click', function(e){        // 给按钮绑定click事件，在这获取data，后续用ajax传输
+        var ev = e || window.event;
+        ev.preventDefault();
+        submit();
+        console.log(data);
+    });
+
+
+</script>
+
+
+</body>
+</html>
