@@ -1,5 +1,5 @@
 <template>
-    <div id="root">
+    <div id="app">
         <input id="username" v-model="username" type="text">
         <input id="password" v-model="password" type="password">
         <input type="submit" @click="login" value="登录">
