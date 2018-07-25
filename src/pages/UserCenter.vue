@@ -1,0 +1,172 @@
+<template>
+    <div>
+<el-row>
+        <el-col :span="4" :offset="6">
+            <el-menu default-active="1" class="el-menu-demo" mode="horizontal">
+                <el-menu-item index="1" @click="createVote(1)">我的投票</el-menu-item>
+                <el-menu-item index="2" @click="createVote(2)">发起投票</el-menu-item>
+                <el-menu-item index="3" @click="createVote(3)">开始投票</el-menu-item>
+            </el-menu>
+        </el-col>
+        <el-col :span="3" :offset="4" class="block-col-2">
+            <el-menu>
+                <el-dropdown trigger="click">
+                    <p class="el-dropdown-link">
+                        {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
+                    </p>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>个人资料</el-dropdown-item>
+                        <el-dropdown-item>设置</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </el-menu>
+        </el-col>
+    </el-row>
+    <div v-show="chose2">
+        <el-row>
+            <el-col :span="12" :offset="6">
+                <el-form label-width="100px" class="demo-dynamic">
+                    <el-form-item label="问卷标题">
+                        <el-input v-model="voteText.title"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div :model="voteText" ref="voteText" v-for="(question,que) in voteText.vote">
+                    <el-form label-width="100px" class="demo-dynamic">
+                        <el-form-item
+                                :label="'问题 '+ (que+1)"
+                        >
+                            <el-input v-model="question.question"></el-input>
+                            <template>
+                                <el-radio v-model="question.type" label="radio">单选</el-radio>
+                                <el-radio v-model="question.type" label="checkbox">多选</el-radio>
+                            </template>
+                        </el-form-item>
+                        <el-form-item
+                                v-for="(select,index) in question.chose"
+                                :label="'选项 '+ (index+1)"
+                                :key="select.key"
+                        >
+                            <el-input v-model="question.chose[index]"></el-input>
+                            <el-button @click.prevebt="removeChose(select,que)">删除</el-button>
+
+                        </el-form-item>
+                        <el-row>
+                            <el-col :offset="6">
+                                <el-form-item>
+                                    <el-button @click="addChose(que)" type="primary"> 新增选项</el-button>
+                                    <el-button @click="addQuestion" type="primary"> 新增问题</el-button>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="10" :offset="8">
+                <el-form>
+                    <el-button style="width: 100%" type="primary" @click="submit">提交</el-button>
+                </el-form>
+            </el-col>
+        </el-row>
+    </div>
+    </div>
+</template>
+<style>
+    .el-row {
+        margin-bottom: 20px;
+    }
+
+    .el-col {
+        border-radius: 4px;
+    }
+</style>
+<script>
+    new Vue({
+        el: '#root',
+        data() {
+            return {
+                id: '',
+                username: '',
+                index: '',
+                chose1: '',
+                chose2: '',
+                chose3: '',
+                voteText: {
+                    title: '',
+                    userId: '',
+                    vote: [{
+                        chose: [''],
+                        question: '',
+                        type: '',
+                    }]
+                },
+                radio: '1',
+            };
+        },
+        created() {
+            this.id = this.getParameterByName('userId');
+            this.username = this.getParameterByName('username');
+        },
+        methods: {
+            getParameterByName(_name) {
+                let name = _name;
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                let results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            },
+            createVote(index) {
+                if (index == 1) {
+                    this.chose2 = this.chose3 = false;
+                    this.chose1 = true;
+                }
+                else if (index == 2) {
+                    this.chose1 = this.chose3 = false;
+                    this.chose2 = true;
+                }
+                else {
+                    this.chose1 = this.chose2 = false;
+                    this.chose3 = true;
+                }
+            },
+            removeChose(chose, index) {
+                var list = this.voteText.vote[index].chose.indexOf(chose);
+                console.log(list);
+                if (list != -1) {
+                    this.voteText.vote[index].chose.splice(list, 1)
+                }
+            },
+            addChose(index) {
+                this.voteText.vote[index].chose.push('');
+            },
+            addQuestion() {
+                this.voteText.vote.push({
+                    chose: [''],
+                    question: '',
+                    type: '',
+                });
+            },
+            submit() {
+                this.voteText.userId = this.id;
+                $.ajax({
+                    type: "post",
+                    url: "http://10.0.20.190:8090/vote/v1/vote_v1",
+                    dataType : 'json',
+                    async:true,
+                    data : this.voteText,
+                    contentType:"application/x-www-form-urlencoded",//默认值
+                    success: function(data,textStatus){
+                        console.log(data, textStatus);
+                    },
+                    error: function(xhr,status,errMsg){
+                        console.log(xhr,status,errMsg);
+                    }
+                });
+            }
+        }
+    })
+</script>
+</div>
+</body>
+</html>
