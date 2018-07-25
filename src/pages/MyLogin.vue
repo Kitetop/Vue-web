@@ -27,27 +27,24 @@
         },
         methods: {
             login() {
-            //     axios({
-            //         url: "http://10.0.20.190:8090/vote/v1/login",
-            //         method: "POST",
-            //         params: {
-            //             username: this.username,
-            //             password: this.password
-            //         }
-            //     }).then(rsp => {
-            //         console.log(rsp);
-            //         window.location = './center.html?userId=' + rsp.data.id + '&username=' + this.username;
-            //     }).catch(err => {
-            //         alert("账号或者密码错误，请重试！");
-            //         this.username = '';
-            //         this.password = '';
-            //     });
-                window.location ='/index';
+                this.axios({
+                    url: "http://10.0.20.190:8090/vote/v1/login",
+                    method: "POST",
+                    params: {
+                        username: this.username,
+                        password: this.password
+                    }
+                }).then(res => {
+                    console.log(res);
+                    //window.location='./user-center.html?userId='+rsp.data.id+'&username='+this.username;
+                }).catch(err => {
+                    console.log(err);
+                });
              }
         }
     }
 </script>
-<style>
+<style scoped>
     .el-row {
         margin-bottom: 20px;
     }

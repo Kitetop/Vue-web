@@ -1,89 +1,79 @@
 <template>
     <div>
-<el-row>
-        <el-col :span="4" :offset="6">
-            <el-menu default-active="1" class="el-menu-demo" mode="horizontal">
-                <el-menu-item index="1" @click="createVote(1)">我的投票</el-menu-item>
-                <el-menu-item index="2" @click="createVote(2)">发起投票</el-menu-item>
-                <el-menu-item index="3" @click="createVote(3)">开始投票</el-menu-item>
-            </el-menu>
-        </el-col>
-        <el-col :span="3" :offset="4" class="block-col-2">
-            <el-menu>
-                <el-dropdown trigger="click">
-                    <p class="el-dropdown-link">
-                        {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
-                    </p>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>个人资料</el-dropdown-item>
-                        <el-dropdown-item>设置</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
-            </el-menu>
-        </el-col>
-    </el-row>
-    <div v-show="chose2">
         <el-row>
-            <el-col :span="12" :offset="6">
-                <el-form label-width="100px" class="demo-dynamic">
-                    <el-form-item label="问卷标题">
-                        <el-input v-model="voteText.title"></el-input>
-                    </el-form-item>
-                </el-form>
-                <div :model="voteText" ref="voteText" v-for="(question,que) in voteText.vote">
+            <el-col :span="4" :offset="6">
+                <el-menu default-active="1" class="el-menu-demo" mode="horizontal">
+                    <el-menu-item index="1" @click="createVote(1)">我的投票</el-menu-item>
+                    <el-menu-item index="2" @click="createVote(2)">发起投票</el-menu-item>
+                    <el-menu-item index="3" @click="createVote(3)">开始投票</el-menu-item>
+                </el-menu>
+            </el-col>
+            <el-col :span="3" :offset="4" class="block-col-2">
+                <el-menu>
+                    <el-dropdown trigger="click">
+                        <p class="el-dropdown-link">
+                            {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
+                        </p>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>个人资料</el-dropdown-item>
+                            <el-dropdown-item>设置</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </el-menu>
+            </el-col>
+        </el-row>
+        <div v-show="chose2">
+            <el-row>
+                <el-col :span="12" :offset="6">
                     <el-form label-width="100px" class="demo-dynamic">
-                        <el-form-item
-                                :label="'问题 '+ (que+1)"
-                        >
-                            <el-input v-model="question.question"></el-input>
-                            <template>
-                                <el-radio v-model="question.type" label="radio">单选</el-radio>
-                                <el-radio v-model="question.type" label="checkbox">多选</el-radio>
-                            </template>
+                        <el-form-item label="问卷标题">
+                            <el-input v-model="voteText.title"></el-input>
                         </el-form-item>
-                        <el-form-item
-                                v-for="(select,index) in question.chose"
-                                :label="'选项 '+ (index+1)"
-                                :key="select.key"
-                        >
-                            <el-input v-model="question.chose[index]"></el-input>
-                            <el-button @click.prevebt="removeChose(select,que)">删除</el-button>
-
-                        </el-form-item>
-                        <el-row>
-                            <el-col :offset="6">
-                                <el-form-item>
-                                    <el-button @click="addChose(que)" type="primary"> 新增选项</el-button>
-                                    <el-button @click="addQuestion" type="primary"> 新增问题</el-button>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
                     </el-form>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="10" :offset="8">
-                <el-form>
-                    <el-button style="width: 100%" type="primary" @click="submit">提交</el-button>
-                </el-form>
-            </el-col>
-        </el-row>
-    </div>
+                    <div :model="voteText" ref="voteText" v-for="(question,que) in voteText.vote">
+                        <el-form label-width="100px" class="demo-dynamic">
+                            <el-form-item
+                                    :label="'问题 '+ (que+1)"
+                            >
+                                <el-input v-model="question.question"></el-input>
+                                <template>
+                                    <el-radio v-model="question.type" label="radio">单选</el-radio>
+                                    <el-radio v-model="question.type" label="checkbox">多选</el-radio>
+                                </template>
+                            </el-form-item>
+                            <el-form-item
+                                    v-for="(select,index) in question.chose"
+                                    :label="'选项 '+ (index+1)"
+                                    :key="select.key"
+                            >
+                                <el-input v-model="question.chose[index]"></el-input>
+                                <el-button @click.prevebt="removeChose(select,que)">删除</el-button>
+
+                            </el-form-item>
+                            <el-row>
+                                <el-col :offset="6">
+                                    <el-form-item>
+                                        <el-button @click="addChose(que)" type="primary"> 新增选项</el-button>
+                                        <el-button @click="addQuestion" type="primary"> 新增问题</el-button>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                        </el-form>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="10" :offset="8">
+                    <el-form>
+                        <el-button style="width: 100%" type="primary" @click="submit">提交</el-button>
+                    </el-form>
+                </el-col>
+            </el-row>
+        </div>
     </div>
 </template>
-<style>
-    .el-row {
-        margin-bottom: 20px;
-    }
-
-    .el-col {
-        border-radius: 4px;
-    }
-</style>
 <script>
-    new Vue({
-        el: '#root',
+    export default {
         data() {
             return {
                 id: '',
@@ -152,21 +142,27 @@
                 $.ajax({
                     type: "post",
                     url: "http://10.0.20.190:8090/vote/v1/vote_v1",
-                    dataType : 'json',
-                    async:true,
-                    data : this.voteText,
-                    contentType:"application/x-www-form-urlencoded",//默认值
-                    success: function(data,textStatus){
+                    dataType: 'json',
+                    async: true,
+                    data: this.voteText,
+                    contentType: "application/x-www-form-urlencoded",//默认值
+                    success: function (data, textStatus) {
                         console.log(data, textStatus);
                     },
-                    error: function(xhr,status,errMsg){
-                        console.log(xhr,status,errMsg);
+                    error: function (xhr, status, errMsg) {
+                        console.log(xhr, status, errMsg);
                     }
                 });
             }
         }
-    })
+    }
 </script>
-</div>
-</body>
-</html>
+<style>
+    .el-row {
+        margin-bottom: 20px;
+    }
+
+    .el-col {
+        border-radius: 4px;
+    }
+</style>
