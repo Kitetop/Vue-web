@@ -1,15 +1,5 @@
 <template>
-    <div>
-        <component
-           :is="show"
-           @login="login"
-           @success="success"
-           :username="username"
-        />
-        <!--<my-login></my-login>-->
-        <!--<user-center></user-center>-->
-        <!--<router-view></router-view>-->
-    </div>
+        <router-view></router-view>
 </template>
 
 <script>
