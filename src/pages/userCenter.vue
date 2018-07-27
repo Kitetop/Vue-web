@@ -52,7 +52,7 @@
                 if (index == 1) {
                     this.$router.push(/user/+ this.username +'/' + this.id);
                 } else if (index == 2) {
-                    this.$router.push('/createVote/'+this.userId);
+                    this.$router.push('/createVote/'+this.id);
                 }
                 else {
                     alert('该组件还没有实现^_^');

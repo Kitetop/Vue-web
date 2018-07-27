@@ -1,14 +1,18 @@
 <template>
     <div>
-        <div>
-            <el-card class="box-card">
-                <div class="clearfix">
-                    <span>{{votes.list[0]}}</span>
-                    <el-button style="float: right; padding: 3px 0" type="text">查看详情</el-button>
-                </div>
-                <div class="text item"></div>
-            </el-card>
-        </div>
+        <el-row v-for="item in votes.list" :key="item.id">
+            <el-col :span="12" :offset="6">
+                <el-card class="box-card">
+                    <div class="clearfix">
+                        <span>{{item.title}}</span>
+                        <el-button style="float: right; padding: 3px 0" type="text">查看详情</el-button>
+                    </div>
+                    <div class="text item">
+                        {{item.time}}
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -27,7 +31,7 @@
                 list: []
             }
         },
-        created () {
+        created() {
             this.id = this.$route.params.userId;
             this.getVotes();
             console.log("votes:", this.votes);
@@ -48,13 +52,14 @@
                     this.votes.pages = res.data.meta.pages;
                     this.votes.prev = res.data.prev;
                     this.votes.next = res.data.next;
-                    for (var key in res.data.list) {
-                        this.votes.list [key] = {
-                            id: res.data.list[key].id,
-                            title: res.data.list[key].title,
-                            time: res.data.list[key].createTime,
-                        }
-                    }
+                    res.data.list.forEach(item => {
+                        this.votes.list.push({
+                            id: item.id,
+                            title: item.title,
+                            time: item.createTime,
+                        });
+                        console.log(item);
+                    });
                 }).catch(err => {
                     console.log(err);
                 });
@@ -65,7 +70,8 @@
 
 <style scoped>
     .text {
-        font-size: 14px;
+        font-size: 11px;
+        color: green;
     }
 
     .item {
