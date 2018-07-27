@@ -2,14 +2,14 @@
     <div>
         <el-row>
             <el-col :span="4" :offset="6">
-                <el-menu default-active="2" class="el-menu-demo" mode="horizontal">
+                <el-menu default-active="1" class="el-menu-demo" mode="horizontal">
                     <el-menu-item index="1" @click="choseFunction(1)">我的投票</el-menu-item>
                     <el-menu-item index="2" @click="choseFunction(2)">发起投票</el-menu-item>
                     <el-menu-item index="3" @click="choseFunction(3)">开始投票</el-menu-item>
                 </el-menu>
             </el-col>
             <el-col :span="3" :offset="8" class="block-col-2">
-                <login-heard @goLogin="goLogin" v-show="!username"></login-heard>
+                <login-heard v-show="!username"></login-heard>
                 <el-menu v-show="username">
                     <el-dropdown trigger="click">
                         <p class="el-dropdown-link">
@@ -23,58 +23,41 @@
                 </el-menu>
             </el-col>
         </el-row>
-        <!--<create-vote v-show="chose2"></create-vote>-->
-        <component :is="currentView"></component>
+        <router-view></router-view>
     </div>
 </template>
 <script>
     import createVote from './createVote'
     import loginHeard from '../components/loginHeard'
+    import myVotes from './myVotes'
 
     export default {
-        components: {loginHeard, createVote},
-        props: ['username'],
+        components: {loginHeard,myVotes, createVote},
         data() {
             return {
                 id: '',
                 index: '',
+                username: '',
                 chose1: '',
                 chose2: '',
                 chose3: '',
-                currentView: 'createVote',
             };
         },
-        // created() {
-        //     this.id = this.getParameterByName('userId');
-        //     this.username = this.getParameterByName('username');
-        // },
+        created() {
+            this.username = this.$route.params.username;
+            this.id = this.$route.params.userId;
+        },
         methods: {
-            getParameterByName(_name) {
-                let name = _name;
-                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-                let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-                let results = regex.exec(location.search);
-                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-            },
             choseFunction(index) {
-                if (index == 2) {
-                    this.currentView = createVote;
-                } else {
+                if (index == 1) {
+                    this.$router.push(/user/+ this.username +'/' + this.id);
+                } else if (index == 2) {
+                    this.$router.push('/createVote/'+this.userId);
+                }
+                else {
                     alert('该组件还没有实现^_^');
                 }
-                // else if (index == 2) {
-                //     this.chose1 = this.chose3 = false;
-                //     this.chose2 = true;
-                // }
-                // else {
-                //     this.chose1 = this.chose2 = false;
-                //     this.chose3 = true;
-                // }
             },
-            goLogin() {
-                console.log('hjhhh');
-                this.$emit('login');
-            }
         }
     }
 </script>

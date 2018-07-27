@@ -35,9 +35,10 @@
                         password: this.password
                     }
                 }).then(res => {
-                    this.$emit('success' ,this.username);
+                    this.$router.push('/user/' + this.username +'/'+res.data.id);
                 }).catch(err => {
-                    console.log(err);
+                    alert('账号或者密码错误，请确认信息');
+                    this.password = null;
                 });
              }
         }

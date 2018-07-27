@@ -10,7 +10,7 @@
         name: "loginHeard",
         methods: {
             goLogin() {
-                this.$emit('goLogin');
+                this.$router.push('/login');
             }
         }
     }

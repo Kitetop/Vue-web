@@ -3,16 +3,20 @@
         <el-row>
             <el-col :span="12" :offset="6">
                 <el-form label-width="100px" class="demo-dynamic">
-                    <el-form-item label="问卷标题">
-                        <el-input v-model="voteText.title"></el-input>
+                    <el-form-item label="问卷标题" prop="title">
+                        <el-input v-model="voteText.title"/>
                     </el-form-item>
                 </el-form>
                 <div :model="voteText" ref="voteText" v-for="(question,que) in voteText.vote">
                     <el-form label-width="100px" class="demo-dynamic">
                         <el-form-item
                                 :label="'问题 '+ (que+1)"
+                                prop="question"
                         >
-                            <el-input v-model="question.question"></el-input>
+                            <el-input v-model="question.question"
+                            />
+                        </el-form-item>
+                        <el-form-item prop="type">
                             <template>
                                 <el-radio v-model="question.type" label="radio">单选</el-radio>
                                 <el-radio v-model="question.type" label="checkbox">多选</el-radio>
@@ -37,7 +41,7 @@
             <el-col :span="12" :offset="6">
                 <el-form label-width="100px" class="demo-dynamic">
                     <el-form-item>
-                        <el-button style="width: 100%" @click="addQuestion" type="primary"> 新增问题</el-button>
+                        <el-button style="width: 100%" @click="addQuestion()" type="primary"> 新增问题</el-button>
                     </el-form-item>
                     <el-form-item>
                         <el-button style="width: 100%" type="primary" @click="submit">提交</el-button>
@@ -49,6 +53,7 @@
 </template>
 
 <script>
+    import qs from 'qs'
 
     export default {
         name: "createVote",
@@ -58,7 +63,7 @@
                     title: '',
                     userId: '',
                     vote: [{
-                        chose: [''],
+                        chose: ['', ''],
                         question: '',
                         type: '',
                     }]
@@ -76,27 +81,41 @@
                 this.voteText.vote[index].chose.push('');
             },
             addQuestion() {
-                this.voteText.vote.push({
-                    chose: [''],
-                    question: '',
-                    type: '',
-                });
+                let index = this.voteText.vote.length;
+                console.log(index);
+                if (this.voteText.vote[index - 1].chose.length < 2) {
+                    alert('请至少给一个问题设置两个选项');
+                } else if (this.voteText.vote[index - 1].question === '' ||
+                    this.voteText.vote[index - 1].type === '') {
+                    alert('问题或者问题类型不能为空');
+                } else {
+                    this.voteText.vote.push({
+                        chose: [''],
+                        question: '',
+                        type: '',
+                    });
+                }
             },
             submit() {
-                this.voteText.userId = this.id;
-                $.ajax({
-                    type: "post",
+                this.voteText.userId = this.$route.params.userId;
+                this.axios({
                     url: "http://10.0.20.190:8090/vote/v1/vote_v1",
-                    dataType: 'json',
-                    async: true,
-                    data: this.voteText,
-                    contentType: "application/x-www-form-urlencoded",//默认值
-                    success: function (data, textStatus) {
-                        console.log(data, textStatus);
-                    },
-                    error: function (xhr, status, errMsg) {
-                        console.log(xhr, status, errMsg);
-                    }
+                    method: 'POST',
+                    headers: {'content-type': 'application/x-www-form-urlencoded'},
+                    data: qs.stringify(this.voteText),
+                }).then(res => {
+                    alert('投票发布成功');
+                    this.voteText = {
+                        title: '',
+                        userId: '',
+                        vote: [{
+                            chose: ['', ''],
+                            question: '',
+                            type: '',
+                        }]
+                    };
+                }).catch(err => {
+                    alert('投票发布失败，请检查投票信息时候有遗漏');
                 });
             }
         }
