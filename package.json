@@ -5,7 +5,7 @@
   "author": "xieshizhen <xieshizhen@duxze.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --progress --history-api-fallback --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.4.4",
+    "jquery": "^3.3.1",
     "vue": "^2.5.16",
     "vue-axios": "^2.1.2",
     "vue-router": "^3.0.1"

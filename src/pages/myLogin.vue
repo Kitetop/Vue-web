@@ -35,8 +35,7 @@
                         password: this.password
                     }
                 }).then(res => {
-                    console.log(res);
-                    //window.location='./user-center.html?userId='+rsp.data.id+'&username='+this.username;
+                    this.$emit('success' ,this.username);
                 }).catch(err => {
                     console.log(err);
                 });
