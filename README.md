@@ -67,3 +67,5 @@ todolist.html
  ./note/addResult.html =>显示发布的投票
  ./note/changeResult.html =>进行投票
  ```
+# vote version 1
+> make it powerful
