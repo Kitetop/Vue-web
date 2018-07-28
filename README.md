@@ -66,4 +66,13 @@ todolist.html
  ./note/createVote.html =>发布投票
  ./note/addResult.html =>显示发布的投票
  ./note/changeResult.html =>进行投票
- ```
+
+```
+# vote-version_1
+> make it powerful
+
+
+
+
+
+
