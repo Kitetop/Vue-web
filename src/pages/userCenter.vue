@@ -23,7 +23,6 @@
                 </el-menu>
             </el-col>
         </el-row>
-        <!--<create-vote v-show="chose2"></create-vote>-->
         <component :is="currentView"></component>
     </div>
 </template>
@@ -44,10 +43,6 @@
                 currentView: 'createVote',
             };
         },
-        // created() {
-        //     this.id = this.getParameterByName('userId');
-        //     this.username = this.getParameterByName('username');
-        // },
         methods: {
             getParameterByName(_name) {
                 let name = _name;
@@ -62,14 +57,6 @@
                 } else {
                     alert('该组件还没有实现^_^');
                 }
-                // else if (index == 2) {
-                //     this.chose1 = this.chose3 = false;
-                //     this.chose2 = true;
-                // }
-                // else {
-                //     this.chose1 = this.chose2 = false;
-                //     this.chose3 = true;
-                // }
             },
             goLogin() {
                 console.log('hjhhh');
