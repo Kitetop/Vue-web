@@ -70,7 +70,7 @@ todolist.html
 ```
 # vote version 0.9.9
 
-###### 技术选型： vue+webpack+Element
+###### 技术选型： vue+webpack+Element+Axios
 > A less elegant way to change the rendered component
 
 ````
