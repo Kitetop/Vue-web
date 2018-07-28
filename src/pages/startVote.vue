@@ -1,11 +1,11 @@
 <template>
     <div>
-        <el-row v-for="item in votes.list" :key="item.id" v-show="! showComponent">
+        <el-row v-for="item in votes.list" :key="item.id">
             <el-col :span="12" :offset="6">
                 <el-card class="box-card">
                     <div class="clearfix">
                         <span>{{item.title}}</span>
-                        <el-button style="float: right; padding: 3px 0" type="text" @click="getResult(item.id)">查看详情</el-button>
+                        <el-button style="float: right; padding: 3px 0" type="text">参加投票</el-button>
                     </div>
                     <div class="text item">
                         {{item.time}}
@@ -13,19 +13,15 @@
                 </el-card>
             </el-col>
         </el-row>
-        <component :is="showComponent" :voteId="queryId" @change="change"/>
     </div>
 </template>
 
 <script>
-    import showResult from './showResult'
     export default {
-        name: "myVotes",
+        name: "startVote",
         data() {
             return {
-                id: '', //userId
-                queryId: '',//将要查询的投票编号
-                showComponent:'',
+                id: '',
                 votes: {
                     pages: '',
                     list: [],
@@ -42,7 +38,7 @@
         methods: {
             getVotes() {
                 this.axios({
-                    url: "http://10.0.20.190:8090/vote/v1/showlist_v1?userId=" + this.id,
+                    url: "http://10.0.20.190:8090/vote/v1/showlist_v1?all=true&userId=" + this.id,
                     method: "GET",
                 }).then(res => {
                     this.votes.pages = res.data.meta.pages;
@@ -57,13 +53,6 @@
                     });
                 }).catch(err => {
                 });
-            },
-            getResult(id) {
-                this.queryId = id;
-                this.showComponent = showResult;
-            },
-            change() {
-              this.showComponent = '';
             },
         },
     }

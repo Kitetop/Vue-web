@@ -2,7 +2,7 @@
     <div>
         <el-row>
             <el-col :span="4" :offset="6">
-                <el-menu default-active="1" class="el-menu-demo" mode="horizontal">
+                <el-menu  :default-active="index" class="el-menu-demo" mode="horizontal">
                     <el-menu-item index="1" @click="choseFunction(1)">我的投票</el-menu-item>
                     <el-menu-item index="2" @click="choseFunction(2)">发起投票</el-menu-item>
                     <el-menu-item index="3" @click="choseFunction(3)">开始投票</el-menu-item>
@@ -30,6 +30,7 @@
     import createVote from './createVote'
     import loginHeard from '../components/loginHeard'
     import myVotes from './myVotes'
+    import startVote from './startVote'
 
     export default {
         components: {loginHeard,myVotes, createVote},
@@ -46,16 +47,24 @@
         created() {
             this.username = this.$route.params.username;
             this.id = this.$route.params.userId;
+            let uri = this.$route.path.split('/')[1];
+            if(uri === 'user'){
+                this.index = '1';
+            }else if(uri === 'vote'){
+                this.index = '2';
+            }else {
+                this.index = '3';
+            }
         },
         methods: {
             choseFunction(index) {
                 if (index == 1) {
-                    this.$router.push(/user/+ this.username +'/' + this.id);
+                    this.$router.push('/user/'+ this.username +'/' + this.id);
                 } else if (index == 2) {
-                    this.$router.push('/createVote/'+this.id);
+                    this.$router.push('/vote/'+ this.username +'/' + this.id);
                 }
                 else {
-                    alert('该组件还没有实现^_^');
+                    this.$router.push('/start/'+ this.username +'/' + this.id);
                 }
             },
         }

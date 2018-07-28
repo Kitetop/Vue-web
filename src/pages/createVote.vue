@@ -90,7 +90,7 @@
                     alert('问题或者问题类型不能为空');
                 } else {
                     this.voteText.vote.push({
-                        chose: [''],
+                        chose: ['',''],
                         question: '',
                         type: '',
                     });
