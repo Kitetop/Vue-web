@@ -1,11 +1,11 @@
 <template>
     <div>
-        <el-row v-for="item in votes.list" :key="item.id">
+        <el-row v-for="item in votes.list" :key="item.id" v-show="! showComponent">
             <el-col :span="12" :offset="6">
                 <el-card class="box-card">
                     <div class="clearfix">
                         <span>{{item.title}}</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">参加投票</el-button>
+                        <el-button style="float: right; padding: 3px 0" type="text" @click="addResult(item.id)">参加投票</el-button>
                     </div>
                     <div class="text item">
                         {{item.time}}
@@ -13,15 +13,22 @@
                 </el-card>
             </el-col>
         </el-row>
+        <component :is="showComponent"
+                   :voteId="voteId"
+                   :userId="id"
+                   @change="change"/>
     </div>
 </template>
 
 <script>
+    import addResult from './addResult'
     export default {
         name: "startVote",
         data() {
             return {
-                id: '',
+                id: '', //用户编号
+                voteId: '', //投票编号
+                showComponent: '', //显示的组件
                 votes: {
                     pages: '',
                     list: [],
@@ -53,6 +60,13 @@
                     });
                 }).catch(err => {
                 });
+            },
+            addResult(id) {
+                this.voteId = id;
+                this.showComponent = addResult;
+            },
+            change() {
+                this.showComponent = '';
             },
         },
     }

@@ -27,7 +27,6 @@
         data() {
             return {
                 result: [],
-                index: 0,
             }
         },
         created() {
@@ -49,7 +48,7 @@
                         )
                         this.result[i].question = res.data.result[i].question;
                         for (var key in res.data.result[i]) {
-                            if (key === 'question') {
+                            if (key === 'question' || key === 'type') {
                                 continue;
                             }
                             this.result[i].choseKey.push(key);
@@ -70,8 +69,8 @@
 
 <style scoped>
     .text {
-        font-size: 11px;
-        color: dodgerblue;
+        font-size: 14px;
+        color: sandybrown;
     }
 
     .item {
