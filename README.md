@@ -5,67 +5,76 @@
 ## Build Setup
 
 ``` bash
-# install dependencies
+# git clone this project
+git clone xxxxxxx
+
+# go to the directory you clone
+cd Vue-web
+# install dependencies,before this you should install Node.js environment if you do not have
 npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
+# by doing this, type in your browser http://localhost:8080,you will see the project view
 ```
-# firstday
 
-> basic learning (demo is in note directory)
+# vote first version
 
-## simple demo
-
-```bash
-./note/index.html
-1.事件绑定=>@
-
-2.属性绑定=>:
-
-3.插值表达式=>{{data}}
-
-4.双向绑定=>v-model
-
-5.v-if=>DOM的存在与否
-  v-show=>DOM的显示与否
-  v-for=>循环显示
-  
-6.Vue实例元素含义
-
-7.侦听=>watch
-
-8.计算=>computed
-
-todolist.html
-1. 组件就是一个小的vue实例，它的里面同样可以使用data、methods属性
-   父组件可以使用props把数据传递给子组件，子组件可以使用$emit触发父组件之中定义的事件
-```
-# vote 
  > the view for voting
  
+###### 技术选型: vue.js+Boostrap+Axios
  ```
- ./note/axios-login.html => 用户登录
- ./note/user-center.html =>用户中心
- ./note/showResult.html =>显示投票详情
- ./note/createVote.html =>发布投票
- ./note/addResult.html =>显示发布的投票
- ./note/changeResult.html =>进行投票
+ ./src/note/axios-login.html => 用户登录
+ ./src/note/user-center.html =>用户中心
+ ./src/note/showResult.html =>显示投票详情
+ ./src/note/createVote.html =>发布投票
+ ./src/note/addResult.html =>显示发布的投票
+ ./src/note/changeResult.html =>进行投票
  ```
 # vote version 1
-> make it powerful
+
+> Practical demo
+
+###### 技术选型: vue.js+Element+Axios+Webpack
+````
+目录结构：
+├── README.md                       // 项目说明文档
+├── node_modules                    // 项目依赖包文件夹
+├── build                           // 编译配置文件，一般不用管
+│   ├── build.js
+│   ├── check-versions.js
+│   ├── dev-client.js
+│   ├── dev-server.js
+│   ├── utils.js
+│   ├── vue-loader.conf.js
+│   ├── webpack.base.conf.js
+│   ├── webpack.dev.conf.js
+│   └── webpack.prod.conf.js
+├── config                          // 项目基本设置文件夹
+│   ├── dev.env.js              // 开发配置文件
+│   ├── index.js                    // 配置主文件
+│   └── prod.env.js             // 编译配置文件
+├── index.html                      // 项目入口文件
+├── package-lock.json           // npm5 新增文件，优化性能
+├── package.json                    // 项目依赖包配置文件
+├── src                             // 我们的项目的源码编写文件
+│   ├── App.vue                 // APP入口文件
+│   ├── assets                      // 初始项目资源目录，回头删掉
+│   │   └── logo.png
+│   ├── components              // 组件目录
+│   │   └── Hello.vue           // 测试组件，回头删除
+│   ├── main.js                 // 主配置文件
+│   └── router                      // 路由配置文件夹
+│       └── index.js            // 路由配置文件
+└── static                          // 资源放置目录
+所有的业务代码都放置在src文件夹下，这也是我们主要的工作目录，具体的目录结构可以自己设计
+ 
+ ./src/pages/createVote => 创建投票组件
+ ./src/pages/myVotes => 显示自己创建投票组件
+ ./src/pages/starVote => 显示全部投票组件
+ ./src/pages/userCenter => 用户中心组件，上诉三个组件的父组件
+ ./src/pages/showResult => 显示结果组件，通过点击myVotes组件内查看详情按钮加载
+ ./src/pages/myLogin => 用户登录组件
+ ./src/pages/addResult => 增加投票结果组件
+````
