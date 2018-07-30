@@ -12,7 +12,7 @@ export default new Router({
     routes: [
         {
           path: '/',
-          component:userCenter
+          component:login
         },
         {
            path: '/user/:username/:userId',
