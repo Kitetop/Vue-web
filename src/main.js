@@ -9,10 +9,10 @@ import $ from 'jquery'
 import App from './App'
 
 Vue.config.productionTip = false;
-Vue.use(VueRouter)
-Vue.use(router)
+Vue.use(VueRouter);
+Vue.use(router);
 Vue.use(ElementUI);
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, axios);
 
 /* eslint-disable no-new */
 

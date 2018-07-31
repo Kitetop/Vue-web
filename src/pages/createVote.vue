@@ -54,7 +54,7 @@
 
 <script>
     import qs from 'qs'
-
+    import {HOST} from '../apiRoot'
     export default {
         name: "createVote",
         data() {
@@ -99,7 +99,7 @@
             submit() {
                 this.voteText.userId = this.$route.params.userId;
                 this.axios({
-                    url: "http://10.0.20.190:8090/vote/v1/vote_v1",
+                    url: HOST + "vote_v1",
                     method: 'POST',
                     headers: {'content-type': 'application/x-www-form-urlencoded'},
                     data: qs.stringify(this.voteText),

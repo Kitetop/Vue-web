@@ -51,6 +51,9 @@ npm run dev
 │   ├── webpack.base.conf.js
 │   ├── webpack.dev.conf.js
 │   └── webpack.prod.conf.js
+├── dist                   //npm run build 之后的打包文件夹，如果你有服务器直接把该文件夹放置到服务器www目录下访问index.html就可以访问整个项目了
+|   ├── index.html
+|   ├── static
 ├── config                          // 项目基本设置文件夹
 │   ├── dev.env.js              // 开发配置文件
 │   ├── index.js                    // 配置主文件
@@ -60,6 +63,7 @@ npm run dev
 ├── package.json                    // 项目依赖包配置文件
 ├── src                             // 我们的项目的源码编写文件
 │   ├── App.vue                 // APP入口文件
+|   ├── apiRouter.js         //配置文件，设置api的根目录 
 │   ├── assets                      // 初始项目资源目录，回头删掉
 │   │   └── logo.png
 │   ├── components              // 组件目录
@@ -77,4 +81,13 @@ npm run dev
  ./src/pages/showResult => 显示结果组件，通过点击myVotes组件内查看详情按钮加载
  ./src/pages/myLogin => 用户登录组件
  ./src/pages/addResult => 增加投票结果组件
+ 
+````
+> 待改进问题
+
+````
+1. 登录逻辑不合理，可以绕过登录而直接进入到用户中心界面
+2. 没有表单验证，需要对用户输入进行甄别验证，阻止非法输入发送HTTP请求给服务器造成负担
+3. 没有删除操作，需要增加删除接口以及用户的注销
+
 ````

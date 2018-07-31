@@ -19,6 +19,7 @@
 
 <script>
     import showResult from './showResult'
+    import {HOST} from '../apiRoot'
     export default {
         name: "myVotes",
         data() {
@@ -42,7 +43,7 @@
         methods: {
             getVotes() {
                 this.axios({
-                    url: "http://10.0.20.190:8090/vote/v1/showlist_v1?userId=" + this.id,
+                    url: HOST + "showlist_v1?userId=" + this.id,
                     method: "GET",
                 }).then(res => {
                     this.votes.pages = res.data.meta.pages;

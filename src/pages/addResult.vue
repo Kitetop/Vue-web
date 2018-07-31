@@ -38,6 +38,7 @@
 
 <script>
     import qs from 'qs'
+    import {HOST} from '../apiRoot'
     export default {
         name: "addResult",
         props: ['voteId', 'userId'],
@@ -58,7 +59,7 @@
             submit() {
                 this.changeForm();
                 this.axios({
-                    url: "http://10.0.20.190:8090/vote/v1/result_v1",
+                    url: HOST + "result_v1",
                     method: 'POST',
                     headers: {'content-type': 'application/x-www-form-urlencoded'},
                     data: qs.stringify(this.chose),

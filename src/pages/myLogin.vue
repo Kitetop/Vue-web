@@ -17,6 +17,7 @@
     </el-row>
 </template>
 <script>
+    import {HOST} from '../apiRoot'
     export default {
         data() {
             return {
@@ -27,8 +28,9 @@
         },
         methods: {
             login() {
+                console.log(HOST);
                 this.axios({
-                    url: "http://10.0.20.190:8090/vote/v1/login",
+                    url: HOST + "login",
                     method: "POST",
                     params: {
                         username: this.username,

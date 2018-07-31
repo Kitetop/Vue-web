@@ -21,6 +21,7 @@
 </template>
 
 <script>
+    import {HOST} from '../apiRoot'
     export default {
         name: "showResult",
         props: ['voteId'],
@@ -36,7 +37,7 @@
         methods: {
             getResult() {
                 this.axios({
-                    url: 'http://10.0.20.190:8090/vote/v1/result_v1?voteId=' + this.voteId,
+                    url: HOST + 'result_v1?voteId=' + this.voteId,
                     method: 'GET',
                 }).then(res => {
                     for (var i = 0; i < res.data.result.length; i++) {
